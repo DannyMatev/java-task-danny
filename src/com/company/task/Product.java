@@ -1,11 +1,16 @@
 package com.company.task;
 
-public class Product {
+public class Product implements Comparable<Product> {
     private String serialNumber;
     private String type;
     private String quality;
     private String origin;
     private double price;
+
+    @Override
+    public int compareTo( final Product product) {
+        return Double.compare(this.getPrice(), product.getPrice());
+    }
 
     public String getSerialNumber() {
         return serialNumber;
@@ -40,12 +45,13 @@ public class Product {
     }
 
     public double getPrice() {
+        calculatePrice();
         return price;
     }
 
-    public void calculatePrice() {
+    private void calculatePrice() {
         switch (type) {
-            case "Bread":
+            case Constants.TYPE_BREAD:
                 switch (quality) {
                     case "1":
                         price = 2.00;
@@ -58,7 +64,7 @@ public class Product {
                         break;
                 }
                 break;
-            case "Cheese":
+            case Constants.TYPE_CHEESE:
                 switch (quality) {
                     case "1":
                         price = 15.00;
@@ -71,7 +77,7 @@ public class Product {
                         break;
                 }
                 break;
-            case "Tomato":
+            case Constants.TYPE_TOMATO:
                 switch (quality) {
                     case "1":
                         price = 6.00;
