@@ -1,6 +1,6 @@
 package com.company.task;
 
-public class Product implements Comparable<Product> {
+class Product implements Comparable<Product> {
     private String serialNumber;
     private String type;
     private String quality;
@@ -87,6 +87,32 @@ public class Product implements Comparable<Product> {
                         break;
                     case "3":
                         price = 2.00;
+                        break;
+                }
+                break;
+            case Constants.TYPE_ICECREAM:
+                switch(quality) {
+                    case "1":
+                        price = 15.00;
+                        break;
+                    case "2":
+                        price = 12.00;
+                        break;
+                    case "3":
+                        price = 6.00;
+                        break;
+                }
+                break;
+            case Constants.TYPE_SHAMPOO:
+                switch(quality) {
+                    case "1":
+                        price = 12.00;
+                        break;
+                    case "2":
+                        price = 8.00;
+                        break;
+                    case "3":
+                        price = 4.50;
                         break;
                 }
                 break;
