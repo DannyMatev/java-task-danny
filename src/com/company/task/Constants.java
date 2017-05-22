@@ -2,9 +2,9 @@ package com.company.task;
 
 class Constants {
 
-    static final String PRODUCT_SERIAL_NUMBER="serial-number";
-    static final String PRODUCT_TYPE="type";
-    static final String PRODUCT_QUALITY="quality";
+    static final String PRODUCT_SERIAL_NUMBER = "serial-number";
+    static final String PRODUCT_TYPE = "type";
+    static final String PRODUCT_QUALITY = "quality";
 
     static final String TYPE_BREAD = "Bread";
     static final String TYPE_TOMATO = "Tomato";

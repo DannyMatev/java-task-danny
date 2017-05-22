@@ -33,6 +33,9 @@ public class Main {
                     "\n 0. EXIT");
             choice = s.next();
             switch (choice) {
+                case "0":
+                    System.out.println("EXIT");
+                    break;
                 case "1":
                     for (int i = 0; i < 3; i++) {
                         printProduct(productArrayList.get(i));
@@ -59,9 +62,7 @@ public class Main {
                         printProduct(product);
                     }
                     break;
-                case "0":
-                    System.out.println("EXIT");
-                    break;
+
                 default:
                     System.out.println("Your choice is invalid");
                     break;
@@ -147,21 +148,43 @@ public class Main {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             boolean first = true;
             while ((line = br.readLine()) != null) {
-                Product product = new Product();
+                Product product = null;
                 String[] stockStr = line.split(cvsSeparator);
                 if (!first) {
+                    if (properties.contains(Constants.PRODUCT_TYPE)) {
+                        switch (stockStr[properties.indexOf(Constants.PRODUCT_TYPE)]) {
+                            case Constants.TYPE_BREAD:
+                                product = new Bread();
+                                ((Bread) product).setFlour(stockStr[stockStr.length - 1]);
+                                break;
+                            case Constants.TYPE_CHEESE:
+                                product = new Cheese();
+                                ((Cheese) product).setMilk(stockStr[stockStr.length - 1]);
+                                break;
+                            case Constants.TYPE_TOMATO:
+                                product = new Tomato();
+                                ((Tomato) product).setVariety(stockStr[stockStr.length - 1]);
+                                break;
+                        }
+                    } else {
+                        String fileName = csvFile.substring(csvFile.lastIndexOf('/') + 1, csvFile.lastIndexOf('.'));
+                        switch (fileName) {
+                            case Constants.TYPE_SHAMPOO:
+                                product = new Shampoo();
+                                ((Shampoo) product).setSpecialization(stockStr[stockStr.length - 1]);
+                                break;
+                            case Constants.TYPE_ICECREAM:
+                                product = new Icecream();
+                                ((Icecream) product).setFlavour(stockStr[stockStr.length - 1]);
+                                break;
+                        }
+                    }
                     if (properties.contains(Constants.PRODUCT_SERIAL_NUMBER)) {
                         product.setSerialNumber(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)]);
                     }
                     if (properties.contains(Constants.PRODUCT_QUALITY)) {
                         product.setQuality(stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)]);
                     }
-                    if (properties.contains(Constants.PRODUCT_TYPE)) {
-                        product.setType(stockStr[properties.indexOf(Constants.PRODUCT_TYPE)]);
-                    } else {
-                        product.setType(csvFile.substring(csvFile.lastIndexOf("/") + 1, csvFile.lastIndexOf(".")));
-                    }
-                    product.setOrigin(stockStr[stockStr.length - 1]);
 
                     productList.add(product);
                 } else {
