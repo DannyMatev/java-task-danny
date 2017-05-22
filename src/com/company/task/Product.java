@@ -119,4 +119,31 @@ class Product implements Comparable<Product> {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (Double.compare(product.price, price) != 0) return false;
+        if (serialNumber != null ? !serialNumber.equals(product.serialNumber) : product.serialNumber != null)
+            return false;
+        if (type != null ? !type.equals(product.type) : product.type != null) return false;
+        if (quality != null ? !quality.equals(product.quality) : product.quality != null) return false;
+        return origin != null ? origin.equals(product.origin) : product.origin == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = serialNumber != null ? serialNumber.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (quality != null ? quality.hashCode() : 0);
+        result = 31 * result + (origin != null ? origin.hashCode() : 0);
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

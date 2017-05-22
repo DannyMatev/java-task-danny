@@ -11,13 +11,13 @@ public class Main {
         List<Product> productArrayList = new ArrayList<>();
         Scanner s = new Scanner(System.in);
         String choice;
-        String [] files= {"./files/bread_stock.csv",
+        String[] files = {"./files/bread_stock.csv",
                 "./files/cheese_stock.csv",
                 "./files/tomato_stock.csv",
                 "./files/icecream.csv",
                 "./files/shampoo.csv"};
 
-        for (String file: files) {
+        for (String file : files) {
             productArrayList.addAll(readCSV(file));
         }
 
@@ -34,22 +34,29 @@ public class Main {
             choice = s.next();
             switch (choice) {
                 case "1":
-                    for(int i=0;i<3;i++) {
+                    for (int i = 0; i < 3; i++) {
                         printProduct(productArrayList.get(i));
                     }
                     break;
                 case "2":
-                    System.out.println("Total products: "+ productArrayList.size());
+                    System.out.println("Total products: " + productArrayList.size());
                     break;
                 case "3":
-                    findEach(productArrayList, Constants.TYPE_BREAD, Constants.ORIGIN_CORN);
+                    List<Product> typeOriginList = findEachProduct(productArrayList, Constants.TYPE_BREAD, Constants.ORIGIN_CORN);
+                    for (Product product : typeOriginList) {
+                        printProduct(product);
+                    }
                     break;
                 case "4":
-                    findEach(productArrayList,"3");
+                    List<Product> qualityList = findEachProduct(productArrayList, "3");
+                    for (Product product : qualityList) {
+                        printProduct(product);
+                    }
                     break;
                 case "5":
-                    for(int i=1000;i<=2000;i++) {
-                        findEach(productArrayList, i);
+                    List<Product> serialNumbersList = findEachProduct(productArrayList, 1000, 2000);
+                    for (Product product : serialNumbersList) {
+                        printProduct(product);
                     }
                     break;
                 case "0":
@@ -63,63 +70,78 @@ public class Main {
     }
 
     /**
-     * Find all products by the given criteria
+     * Find all products by a given type and origin
+     *
      * @param products
      * @param type
      * @param origin
+     * @return an array list of all items with the given type and origin
      */
-    private static void findEach(List<Product> products, String type, String origin) {
-        for (Product product:products) {
-            if(product.getType().equals(type) && product.getOrigin().equals(origin)) {
-                printProduct(product);
+    private static List<Product> findEachProduct(List<Product> products, String type, String origin) {
+        List<Product> arrList = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getType().equals(type) && product.getOrigin().equals(origin)) {
+                arrList.add(product);
             }
         }
+        return arrList;
     }
 
     /**
      * Find all products by the given quality
+     *
      * @param products
      * @param quality
+     * @return an array list of all items with the given quality
      */
-    private static void findEach(List<Product> products, String quality) {
-        for (Product product:products) {
-            if(product.getQuality().equals(quality)) {
-                printProduct(product);
+    private static List<Product> findEachProduct(List<Product> products, String quality) {
+        List<Product> arrList = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getQuality().equals(quality)) {
+                arrList.add(product);
             }
         }
+        return arrList;
     }
 
     /**
-     * Find all products by the given quality
+     * Find all products with a serial number in the given range
+     *
      * @param products
-     * @param serialNumber
+     * @param min
+     * @param max
+     * @return an array list of all items within the given range
      */
-    private static void findEach(List<Product> products, int serialNumber) {
-        for (Product product:products) {
-            if(Integer.parseInt(product.getSerialNumber())==serialNumber) {
-                printProduct(product);
+    private static List<Product> findEachProduct(List<Product> products, int min, int max) {
+        List<Product> arrList = new ArrayList<>();
+        for (Product product : products) {
+            if (Integer.parseInt(product.getSerialNumber()) >= min && Integer.parseInt(product.getSerialNumber()) <= max) {
+                arrList.add(product);
             }
         }
+        return arrList;
     }
 
     /**
      * Print a product in a readable format
+     *
      * @param product
      */
     private static void printProduct(Product product) {
-        System.out.println("Serial number: "+ product.getSerialNumber()+" Type: "+product.getType()
-                +" Quality: "+product.getQuality()+" Origin: "+product.getOrigin()+" Price: "+product.getPrice());
+        System.out.println("Serial number: " + product.getSerialNumber() + " Type: " + product.getType()
+                + " Quality: " + product.getQuality() + " Origin: " + product.getOrigin() + " Price: " + product.getPrice());
     }
 
     /**
      * Read csvFile
+     *
      * @param csvFile
      * @return A list with the file contents
      */
     private static List<Product> readCSV(String csvFile) {
         ArrayList<Product> productList = new ArrayList<>();
         String line;
-        List<String> properties=new ArrayList<>();
+        List<String> properties = new ArrayList<>();
         String cvsSeparator = ",";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -128,22 +150,22 @@ public class Main {
                 Product product = new Product();
                 String[] stockStr = line.split(cvsSeparator);
                 if (!first) {
-                    if(properties.contains(Constants.PRODUCT_SERIAL_NUMBER)) {
+                    if (properties.contains(Constants.PRODUCT_SERIAL_NUMBER)) {
                         product.setSerialNumber(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)]);
                     }
-                    if(properties.contains(Constants.PRODUCT_QUALITY)) {
+                    if (properties.contains(Constants.PRODUCT_QUALITY)) {
                         product.setQuality(stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)]);
                     }
-                    if(properties.contains(Constants.PRODUCT_TYPE)) {
+                    if (properties.contains(Constants.PRODUCT_TYPE)) {
                         product.setType(stockStr[properties.indexOf(Constants.PRODUCT_TYPE)]);
                     } else {
-                        product.setType(csvFile.substring(csvFile.lastIndexOf("/")+1, csvFile.lastIndexOf(".")));
+                        product.setType(csvFile.substring(csvFile.lastIndexOf("/") + 1, csvFile.lastIndexOf(".")));
                     }
-                    product.setOrigin(stockStr[stockStr.length-1]);
+                    product.setOrigin(stockStr[stockStr.length - 1]);
 
                     productList.add(product);
                 } else {
-                    properties=new ArrayList<>(Arrays.asList(stockStr));
+                    properties = new ArrayList<>(Arrays.asList(stockStr));
                     first = false;
                 }
             }
