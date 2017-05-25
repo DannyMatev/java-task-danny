@@ -47,7 +47,7 @@ public class Main {
                     System.out.println("Total products: " + productArrayList.size());
                     break;
                 case "3":
-                    List<Product> typeOriginList = findEachProduct(productArrayList, "Bread", "Corn");
+                    List<Product> typeOriginList = findEachProduct(productArrayList, Bread.class, "Corn");
                     for (Product product : typeOriginList) {
                         printProduct(product);
                     }
@@ -80,36 +80,24 @@ public class Main {
      * @param origin
      * @return an array list of all items with the given type and origin
      */
-    private static List<Product> findEachProduct(List<Product> products, String type, String origin) {
+    private static List<Product> findEachProduct(List<Product> products, Class type, String origin) {
         List<Product> arrList = new ArrayList<>();
         for (Product product : products) {
-            if (product.getClass().getSimpleName().equals(type)) {
-                switch (product.getClass().getSimpleName()) {
-                    case Constants.TYPE_BREAD:
-                        if (origin.equals(((Bread) product).getFlour())) {
-                            arrList.add(product);
-                        }
-                        break;
-                    case Constants.TYPE_CHEESE:
-                        if (origin.equals(((Cheese) product).getMilk())) {
-                            arrList.add(product);
-                        }
-                        break;
-                    case Constants.TYPE_ICECREAM:
-                        if (origin.equals(((Icecream) product).getFlavour())) {
-                            arrList.add(product);
-                        }
-                        break;
-                    case Constants.TYPE_SHAMPOO:
-                        if (origin.equals(((Shampoo) product).getSpecialization())) {
-                            arrList.add(product);
-                        }
-                        break;
-                    case Constants.TYPE_TOMATO:
-                        if (origin.equals(((Tomato) product).getVariety())) {
-                            arrList.add(product);
-                        }
-                        break;
+            if (type.isInstance(type)) {
+                if (product instanceof Bread && ((Bread) product).getFlour().equals(origin)) {
+                    arrList.add(product);
+                }
+                if (product instanceof Tomato && ((Tomato) product).getVariety().equals(origin)) {
+                    arrList.add(product);
+                }
+                if (product instanceof Cheese && ((Cheese) product).getMilk().equals(origin)) {
+                    arrList.add(product);
+                }
+                if (product instanceof Icecream && ((Icecream) product).getFlavour().equals(origin)) {
+                    arrList.add(product);
+                }
+                if (product instanceof Shampoo && ((Shampoo) product).getSpecialization().equals(origin)) {
+                    arrList.add(product);
                 }
             }
         }
