@@ -2,12 +2,17 @@ package com.company.task.products;
 
 public class Tomato extends Product {
     private String variety;
+    private String type;
 
     public Tomato(String serialNumber, String quality, String variety) {
         this.serialNumber = serialNumber;
         this.quality = quality;
         this.variety = variety;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 
     public String getVariety() {
         return variety;

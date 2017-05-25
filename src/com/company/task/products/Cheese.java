@@ -2,12 +2,17 @@ package com.company.task.products;
 
 public class Cheese extends Product {
     private String milk;
+    private String type;
 
     public Cheese(String serialNumber, String quality, String milk) {
         this.serialNumber = serialNumber;
         this.quality = quality;
         this.milk = milk;
     }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 
     public String getMilk() {
         return milk;
