@@ -1,5 +1,3 @@
-.git
-.idea
-out
-java-task.iml
-README.md
+.idea/
+out/
+*.iml

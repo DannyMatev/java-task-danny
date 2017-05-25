@@ -1,6 +1,6 @@
-package com.company.task;
+package com.company.task.products;
 
-abstract class Product implements Comparable<Product> {
+public abstract class Product implements Comparable<Product> {
     String serialNumber;
     String quality;
     double price;
@@ -30,10 +30,6 @@ abstract class Product implements Comparable<Product> {
         calculatePrice();
         return price;
     }
-
-    abstract String getOrigin();
-
-    abstract String getType();
 
     abstract void calculatePrice();
 

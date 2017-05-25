@@ -1,7 +1,13 @@
-package com.company.task;
+package com.company.task.products;
 
 public class Bread extends Product {
     private String flour;
+
+    public Bread(String serialNumber, String quality, String flour) {
+        this.serialNumber = serialNumber;
+        this.quality = quality;
+        this.flour = flour;
+    }
 
     public String getFlour() {
         return flour;
@@ -11,15 +17,6 @@ public class Bread extends Product {
         this.flour = flour;
     }
 
-    @Override
-    public String getType() {
-        return "Bread";
-    }
-
-    @Override
-    public String getOrigin() {
-        return getFlour();
-    }
 
     @Override
     void calculatePrice() {

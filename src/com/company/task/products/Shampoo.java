@@ -1,7 +1,13 @@
-package com.company.task;
+package com.company.task.products;
 
 public class Shampoo extends Product {
     private String specialization;
+
+    public Shampoo(String serialNumber, String quality, String specialization) {
+        this.serialNumber = serialNumber;
+        this.quality = quality;
+        this.specialization = specialization;
+    }
 
     public String getSpecialization() {
         return specialization;
@@ -9,16 +15,6 @@ public class Shampoo extends Product {
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
-    }
-
-    @Override
-    public String getType() {
-        return "Shampoo";
-    }
-
-    @Override
-    public String getOrigin() {
-        return getSpecialization();
     }
 
     @Override

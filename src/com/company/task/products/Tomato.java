@@ -1,7 +1,13 @@
-package com.company.task;
+package com.company.task.products;
 
 public class Tomato extends Product {
     private String variety;
+
+    public Tomato(String serialNumber, String quality, String variety) {
+        this.serialNumber = serialNumber;
+        this.quality = quality;
+        this.variety = variety;
+    }
 
     public String getVariety() {
         return variety;
@@ -9,16 +15,6 @@ public class Tomato extends Product {
 
     public void setVariety(String variety) {
         this.variety = variety;
-    }
-
-    @Override
-    public String getType() {
-        return "Tomato";
-    }
-
-    @Override
-    public String getOrigin() {
-        return getVariety();
     }
 
     @Override

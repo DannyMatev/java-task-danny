@@ -1,4 +1,4 @@
-package com.company.task;
+package com.company.task.main;
 
 class Constants {
 
@@ -11,7 +11,5 @@ class Constants {
     static final String TYPE_CHEESE = "Cheese";
     static final String TYPE_ICECREAM = "icecream";
     static final String TYPE_SHAMPOO = "shampoo";
-
-    static final String ORIGIN_CORN = "Corn";
 
 }

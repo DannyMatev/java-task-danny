@@ -1,4 +1,6 @@
-package com.company.task;
+package com.company.task.main;
+
+import com.company.task.products.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -45,7 +47,7 @@ public class Main {
                     System.out.println("Total products: " + productArrayList.size());
                     break;
                 case "3":
-                    List<Product> typeOriginList = findEachProduct(productArrayList, Constants.TYPE_BREAD, Constants.ORIGIN_CORN);
+                    List<Product> typeOriginList = findEachProduct(productArrayList, "Bread", "Corn");
                     for (Product product : typeOriginList) {
                         printProduct(product);
                     }
@@ -81,8 +83,34 @@ public class Main {
     private static List<Product> findEachProduct(List<Product> products, String type, String origin) {
         List<Product> arrList = new ArrayList<>();
         for (Product product : products) {
-            if (product.getType().equals(type) && product.getOrigin().equals(origin)) {
-                arrList.add(product);
+            if (product.getClass().getSimpleName().equals(type)) {
+                switch (product.getClass().getSimpleName()) {
+                    case Constants.TYPE_BREAD:
+                        if (origin.equals(((Bread) product).getFlour())) {
+                            arrList.add(product);
+                        }
+                        break;
+                    case Constants.TYPE_CHEESE:
+                        if (origin.equals(((Cheese) product).getMilk())) {
+                            arrList.add(product);
+                        }
+                        break;
+                    case Constants.TYPE_ICECREAM:
+                        if (origin.equals(((Icecream) product).getFlavour())) {
+                            arrList.add(product);
+                        }
+                        break;
+                    case Constants.TYPE_SHAMPOO:
+                        if (origin.equals(((Shampoo) product).getSpecialization())) {
+                            arrList.add(product);
+                        }
+                        break;
+                    case Constants.TYPE_TOMATO:
+                        if (origin.equals(((Tomato) product).getVariety())) {
+                            arrList.add(product);
+                        }
+                        break;
+                }
             }
         }
         return arrList;
@@ -129,8 +157,25 @@ public class Main {
      * @param product
      */
     private static void printProduct(Product product) {
-        System.out.println("Serial number: " + product.getSerialNumber() + " Type: " + product.getType()
-                + " Quality: " + product.getQuality() + " Origin: " + product.getOrigin() + " Price: " + product.getPrice());
+        String type = null;
+        if (product instanceof Bread) {
+            type = Constants.TYPE_BREAD;
+        }
+        if (product instanceof Shampoo) {
+            type = Constants.TYPE_SHAMPOO;
+        }
+        if (product instanceof Tomato) {
+            type = Constants.TYPE_TOMATO;
+        }
+        if (product instanceof Cheese) {
+            type = Constants.TYPE_CHEESE;
+        }
+        if (product instanceof Icecream) {
+            type = Constants.TYPE_ICECREAM;
+        }
+
+        System.out.println("Serial number: " + product.getSerialNumber() + " Type: " + product.getClass().getSimpleName()
+                + " Quality: " + product.getQuality() + " Origin: " + type + " Price: " + product.getPrice());
     }
 
     /**
@@ -142,55 +187,55 @@ public class Main {
     private static List<Product> readCSV(String csvFile) {
         ArrayList<Product> productList = new ArrayList<>();
         String line;
-        List<String> properties = new ArrayList<>();
-        String cvsSeparator = ",";
+        List<String> properties;
+        String csvSeparator = ",";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            boolean first = true;
+            line = br.readLine();
+            String[] stockStr = line.split(csvSeparator);
+            properties = new ArrayList<>(Arrays.asList(stockStr));
+
             while ((line = br.readLine()) != null) {
                 Product product = null;
-                String[] stockStr = line.split(cvsSeparator);
-                if (!first) {
-                    if (properties.contains(Constants.PRODUCT_TYPE)) {
-                        switch (stockStr[properties.indexOf(Constants.PRODUCT_TYPE)]) {
-                            case Constants.TYPE_BREAD:
-                                product = new Bread();
-                                ((Bread) product).setFlour(stockStr[stockStr.length - 1]);
-                                break;
-                            case Constants.TYPE_CHEESE:
-                                product = new Cheese();
-                                ((Cheese) product).setMilk(stockStr[stockStr.length - 1]);
-                                break;
-                            case Constants.TYPE_TOMATO:
-                                product = new Tomato();
-                                ((Tomato) product).setVariety(stockStr[stockStr.length - 1]);
-                                break;
-                        }
-                    } else {
-                        String fileName = csvFile.substring(csvFile.lastIndexOf('/') + 1, csvFile.lastIndexOf('.'));
-                        switch (fileName) {
-                            case Constants.TYPE_SHAMPOO:
-                                product = new Shampoo();
-                                ((Shampoo) product).setSpecialization(stockStr[stockStr.length - 1]);
-                                break;
-                            case Constants.TYPE_ICECREAM:
-                                product = new Icecream();
-                                ((Icecream) product).setFlavour(stockStr[stockStr.length - 1]);
-                                break;
-                        }
-                    }
-                    if (properties.contains(Constants.PRODUCT_SERIAL_NUMBER)) {
-                        product.setSerialNumber(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)]);
-                    }
-                    if (properties.contains(Constants.PRODUCT_QUALITY)) {
-                        product.setQuality(stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)]);
-                    }
 
-                    productList.add(product);
+                stockStr = line.split(csvSeparator);
+
+                if (properties.contains(Constants.PRODUCT_TYPE)) {
+                    switch (stockStr[properties.indexOf(Constants.PRODUCT_TYPE)]) {
+                        case Constants.TYPE_BREAD:
+                            product = new Bread(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)],
+                                    stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)],
+                                    stockStr[stockStr.length - 1]);
+                            break;
+                        case Constants.TYPE_CHEESE:
+                            product = new Cheese(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)],
+                                    stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)],
+                                    stockStr[stockStr.length - 1]);
+                            break;
+                        case Constants.TYPE_TOMATO:
+                            product = new Tomato(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)],
+                                    stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)],
+                                    stockStr[stockStr.length - 1]);
+                            break;
+                    }
                 } else {
-                    properties = new ArrayList<>(Arrays.asList(stockStr));
-                    first = false;
+                    String fileName = csvFile.substring(csvFile.lastIndexOf('/') + 1, csvFile.lastIndexOf('.'));
+                    switch (fileName) {
+                        case Constants.TYPE_SHAMPOO:
+                            product = new Shampoo(stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)],
+                                    stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)],
+                                    stockStr[stockStr.length - 1]);
+                            break;
+                        case Constants.TYPE_ICECREAM:
+                            product = new Icecream(
+                                    stockStr[properties.indexOf(Constants.PRODUCT_SERIAL_NUMBER)],
+                                    stockStr[properties.indexOf(Constants.PRODUCT_QUALITY)],
+                                    stockStr[stockStr.length - 1]);
+                            break;
+                    }
                 }
+                productList.add(product);
+
             }
         } catch (IOException e) {
             e.printStackTrace();

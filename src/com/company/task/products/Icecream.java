@@ -1,10 +1,13 @@
-package com.company.task;
+package com.company.task.products;
 
-/**
- * Created by daniel.matev on 22.5.2017 г..
- */
 public class Icecream extends Product {
     private String flavour;
+
+    public Icecream(String serialNumber, String quality, String flavour) {
+        this.serialNumber = serialNumber;
+        this.quality = quality;
+        this.flavour = flavour;
+    }
 
     public String getFlavour() {
         return flavour;
@@ -12,16 +15,6 @@ public class Icecream extends Product {
 
     public void setFlavour(String flavour) {
         this.flavour = flavour;
-    }
-
-    @Override
-    public String getType() {
-        return "Icecream";
-    }
-
-    @Override
-    public String getOrigin() {
-        return getFlavour();
     }
 
     @Override
