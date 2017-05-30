@@ -83,26 +83,15 @@ public class Main {
     private static List<Product> findEachProduct(List<Product> products, Class type, String origin) {
         List<Product> arrList = new ArrayList<>();
         for (Product product : products) {
-            if (type.isInstance(type)) {
-                if (product instanceof Bread && ((Bread) product).getFlour().equals(origin)) {
-                    arrList.add(product);
-                }
-                if (product instanceof Tomato && ((Tomato) product).getVariety().equals(origin)) {
-                    arrList.add(product);
-                }
-                if (product instanceof Cheese && ((Cheese) product).getMilk().equals(origin)) {
-                    arrList.add(product);
-                }
-                if (product instanceof Icecream && ((Icecream) product).getFlavour().equals(origin)) {
-                    arrList.add(product);
-                }
-                if (product instanceof Shampoo && ((Shampoo) product).getSpecialization().equals(origin)) {
-                    arrList.add(product);
-                }
+            if (type.isInstance(type) && (origin.equals(product.getFlavour()) || origin.equals(product.getMilk()) ||
+                    origin.equals(product.getFlour()) || origin.equals(product.getVariety()) ||
+                    origin.equals(product.getSpecialization()))) {
+                arrList.add(product);
             }
         }
         return arrList;
     }
+
 
     /**
      * Find all products by the given quality

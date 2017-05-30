@@ -10,9 +10,13 @@ public class Cheese extends Product {
         this.milk = milk;
     }
 
-    public String getType() { return type; }
+    public String getType() {
+        return type;
+    }
 
-    public void setType(String type) { this.type = type; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getMilk() {
         return milk;

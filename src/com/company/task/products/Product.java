@@ -1,5 +1,7 @@
 package com.company.task.products;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 public abstract class Product implements Comparable<Product> {
     String serialNumber;
     String quality;
@@ -29,6 +31,26 @@ public abstract class Product implements Comparable<Product> {
     public double getPrice() {
         calculatePrice();
         return price;
+    }
+
+    public String getFlour() {
+        return "";
+    }
+
+    public String getMilk() {
+        return "";
+    }
+
+    public String getVariety() {
+        return "";
+    }
+
+    public String getSpecialization() {
+        return "";
+    }
+
+    public String getFlavour() {
+        return "";
     }
 
     abstract void calculatePrice();

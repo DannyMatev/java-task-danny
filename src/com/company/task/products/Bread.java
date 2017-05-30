@@ -10,9 +10,13 @@ public class Bread extends Product {
         this.flour = flour;
     }
 
-    public String getType() { return type; }
+    public String getType() {
+        return type;
+    }
 
-    public void setType(String type) { this.type = type; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getFlour() {
         return flour;
@@ -21,7 +25,6 @@ public class Bread extends Product {
     public void setFlour(String flour) {
         this.flour = flour;
     }
-
 
     @Override
     void calculatePrice() {
