@@ -83,7 +83,7 @@ public class Main {
     private static List<Product> findEachProduct(List<Product> products, Class type, String origin) {
         List<Product> arrList = new ArrayList<>();
         for (Product product : products) {
-            if (type.isInstance(type) && (origin.equals(product.getFlavour()) || origin.equals(product.getMilk()) ||
+            if (type.isInstance(product) && (origin.equals(product.getFlavour()) || origin.equals(product.getMilk()) ||
                     origin.equals(product.getFlour()) || origin.equals(product.getVariety()) ||
                     origin.equals(product.getSpecialization()))) {
                 arrList.add(product);
